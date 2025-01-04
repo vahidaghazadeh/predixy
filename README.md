@@ -1,6 +1,6 @@
 # Predixy Docker Image
 
-This repository provides a Docker image for running **Predixy**, a Redis proxy. The image is built using a two-stage Dockerfile based on the **Debian Bullseye** distribution. The build stage compiles Predixy from source, and the runtime stage sets up the necessary environment to run the compiled binary.
+This repository provides a Docker image for running **[Predixy](https://github.com/joyieldInc/predixy)**, a Redis proxy. The image is built using a two-stage Dockerfile based on the **Debian Bullseye** distribution. The build stage compiles Predixy from source, and the runtime stage sets up the necessary environment to run the compiled binary.
 
 ## Overview
 
