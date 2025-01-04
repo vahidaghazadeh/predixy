@@ -1,0 +1,152 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-proxy
+data:
+  auth.conf: |
+    Authority {
+      Auth {
+          Mode write
+      }
+      Auth "REDIS_PASSWORD" {
+          Mode admin
+      }
+    }
+  latency.conf: |
+    LatencyMonitor all {
+      Commands {
+        + all
+        - blpop
+        - brpop
+        - brpoplpush
+      }
+      TimeSpan {
+        + 100
+        + 200
+        + 300
+        + 400
+        + 500
+        + 600
+        + 700
+        + 800
+        + 900
+        + 1000
+        + 1200
+        + 1400
+        + 1600
+        + 1700
+        + 1800
+        + 2000
+        + 2500
+        + 3000
+        + 3500
+        + 4000
+        + 4500
+        + 5000
+        + 6000
+        + 7000
+        + 8000
+        + 9000
+        + 10000
+      }
+    }
+
+    LatencyMonitor get {
+      Commands {
+        + get
+      }
+      TimeSpan {
+        + 100
+        + 200
+        + 300
+        + 400
+        + 500
+        + 600
+        + 700
+        + 800
+        + 900
+        + 1000
+      }
+    }
+
+    LatencyMonitor set {
+      Commands {
+        + set
+        + setnx
+        + setex
+      }
+      TimeSpan {
+        + 100
+        + 200
+        + 300
+        + 400
+        + 500
+        + 600
+        + 700
+        + 800
+        + 900
+        + 1000
+      }
+    }
+    LatencyMonitor blist {
+      Commands {
+        + blpop
+        + brpop
+        + brpoplpush
+      }
+      TimeSpan {
+        + 1000
+        + 2000
+        + 3000
+        + 4000
+        + 5000
+        + 6000
+        + 7000
+        + 8000
+        + 9000
+        + 10000
+        + 20000
+        + 30000
+        + 40000
+        + 50000
+        + 60000
+        + 70000
+        + 80000
+        + 90000
+        + 100000
+      }
+    }
+  predixy.conf: |
+    Name PredixyExample
+    Bind 0.0.0.0:6379
+    WorkerThreads 5
+    ClientTimeout 300
+    LogVerbSample 0
+    LogDebugSample 1
+    LogInfoSample 10000
+    LogNoticeSample 1
+    LogWarnSample 1
+    LogErrorSample 1
+    Include auth.conf
+    Include try.conf
+    Include latency.conf
+  try.conf: |
+    ClusterServerPool {
+      MasterReadPriority 100
+      StaticSlaveReadPriority 50
+      DynamicSlaveReadPriority 50
+      RefreshInterval 1
+      ServerTimeout 1
+      ServerFailureLimit 10
+      ServerRetryTimeout 1
+      # Password REDIS_PASSWORD
+      KeepAlive 60
+      Servers {
+          + redis-cluster-0.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-1.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-2.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-3.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-4.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-5.redis-cluster.redis-cluster.svc.cluster.local:6379
+      }
+    }

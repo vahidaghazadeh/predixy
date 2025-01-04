@@ -1,0 +1,40 @@
+#StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-proxy
+spec:
+  serviceName: redis-proxy
+  selector:
+    matchLabels:
+      app: redis-proxy
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: redis-proxy
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/node-type
+                    operator: In
+                    values:
+                      - redis-cluster
+      containers:
+        - name: predixy
+          image: opsource/predixy:latest
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: conf
+              mountPath: /predixy/conf
+              readOnly: false
+          command: [ "/usr/local/bin/predixy", "/predixy/conf/predixy.conf" ]
+      volumes:
+        - name: conf
+          configMap:
+            name: redis-proxy
+            defaultMode: 0755
