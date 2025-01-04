@@ -94,3 +94,29 @@ config:
           + redis-cluster-5.redis-cluster.redis-cluster.svc.cluster.local:6379
       }
     }
+
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  tls: []
+  hosts:
+    - host: redis-proxy.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Autoscaling configuration
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# Service Account configuration
+serviceAccount:
+  create: false
+  annotations: {}
+  automount: true
