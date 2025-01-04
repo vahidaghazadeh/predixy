@@ -1,4 +1,7 @@
+
+
 # Predixy Docker Image
+[![Docker](https://github.com/vahidaghazadeh/predixy/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/vahidaghazadeh/predixy/actions/workflows/docker-publish.yml) [![Docker](https://github.com/vahidaghazadeh/predixy/actions/workflows/docker-publish.yml/badge.svg?event=check_suite)](https://github.com/vahidaghazadeh/predixy/actions/workflows/docker-publish.yml) [![Docker](https://github.com/vahidaghazadeh/predixy/actions/workflows/docker-publish.yml/badge.svg?event=create)](https://github.com/vahidaghazadeh/predixy/actions/workflows/docker-publish.yml) 
 
 This repository provides a Docker image for running **[Predixy](https://github.com/joyieldInc/predixy)**, a Redis proxy. The image is built using a two-stage Dockerfile based on the **Debian Bullseye** distribution. The build stage compiles Predixy from source, and the runtime stage sets up the necessary environment to run the compiled binary.
 
