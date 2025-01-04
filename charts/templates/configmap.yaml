@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-proxy
+  namespace: {{ .Values.namespace }}
+data:
+  auth.conf: |
+    {{ .Values.config.authConf }}
+  latency.conf: |
+    {{ .Values.config.latencyConf }}
+  predixy.conf: |
+    {{ .Values.config.predixyConf }}
+  try.conf: |
+    {{ .Values.config.tryConf }}

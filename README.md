@@ -63,12 +63,9 @@ docker run -p 7617:7617 predixy /bin/bash
 
 # Runtime Stage
 The runtime stage sets up the environment for running the [Predixy](https://github.com/joyieldInc/predixy) server. It installs necessary runtime dependencies, copies the compiled binary, and configures the system to run Predixy.
-```shell
-cd docker
-```
 
 ```shell
-docker build -t predixy .
+docker build -t predixy . 
 ```
 
 ```shell

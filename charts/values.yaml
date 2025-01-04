@@ -1,0 +1,96 @@
+replicaCount: 3
+
+image:
+  repository: opsource/predixy
+  pullPolicy: IfNotPresent
+  tag: latest
+
+namespace: redis-cluster
+
+service:
+  type: LoadBalancer
+  port: 6379
+  targetPort: 6379
+
+config:
+  authConf: |
+    Authority {
+      Auth {
+          Mode write
+      }
+      Auth "Copng_Tech_2024" {
+          Mode admin
+      }
+    }
+  latencyConf: |
+    LatencyMonitor all {
+      Commands {
+        + all
+        - blpop
+        - brpop
+        - brpoplpush
+      }
+      TimeSpan {
+        + 100
+        + 200
+        + 300
+        + 400
+        + 500
+        + 600
+        + 700
+        + 800
+        + 900
+        + 1000
+        + 1200
+        + 1400
+        + 1600
+        + 1700
+        + 1800
+        + 2000
+        + 2500
+        + 3000
+        + 3500
+        + 4000
+        + 4500
+        + 5000
+        + 6000
+        + 7000
+        + 8000
+        + 9000
+        + 10000
+      }
+    }
+  predixyConf: |
+    Name PredixyExample
+    Bind 0.0.0.0:6379
+    WorkerThreads 5
+    ClientTimeout 300
+    LogVerbSample 0
+    LogDebugSample 1
+    LogInfoSample 10000
+    LogNoticeSample 1
+    LogWarnSample 1
+    LogErrorSample 1
+    Include auth.conf
+    Include try.conf
+    Include latency.conf
+  tryConf: |
+    ClusterServerPool {
+      MasterReadPriority 100
+      StaticSlaveReadPriority 50
+      DynamicSlaveReadPriority 50
+      RefreshInterval 1
+      ServerTimeout 1
+      ServerFailureLimit 10
+      ServerRetryTimeout 1
+      Password Copng_Tech_2024
+      KeepAlive 60
+      Servers {
+          + redis-cluster-0.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-1.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-2.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-3.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-4.redis-cluster.redis-cluster.svc.cluster.local:6379
+          + redis-cluster-5.redis-cluster.redis-cluster.svc.cluster.local:6379
+      }
+    }
